@@ -34,6 +34,26 @@ app.use((req, res, next) => {
     console.log(`${req.method} ${req.url} taken ${timeTaken} ms to complete the task`)
 })
 
+// attach express method
+app.use(express.json())
+
+// POST
+app.post('/users',(req,res) => {
+    if(!req.body.name || !req.body.role){
+        return res.status(400).json({
+            error:'User name or role not added'
+        })
+    }
+    const addUser = {
+        name:req.body.name,
+        role:req.body.role,
+        id:usersList.length //assigning id value according to array length
+    };
+    // adding user to the user-list
+    usersList.push(addUser);
+    res.json(addUser);
+})
+
 // GET
 app.get('/', (req,res) => {
     res.send("<body style='background:skyblue;position:relative;min-height:100vh;'><h1 style='color:green;font-size:50px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)'>Hello world.....!</h1></body>")
